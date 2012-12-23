@@ -13,7 +13,9 @@ winstoon.add(winstoon.transports.Console);
 
 var app = http.createServer(function(req, res) {
 
+	var name = req.url.replace(/\//g, "");
 	var extractFields = getExtractFields(req);
+	logger.info('receiving pdf to parse', {name: name, fields: extractFields});
 
 	var outFilename = path.resolve(config['tmp-folder'], uuid.v4() + ".pdf");
 	var out = fs.createWriteStream(outFilename);
@@ -37,7 +39,9 @@ var app = http.createServer(function(req, res) {
 		
 		pdf2text.on('exit', function() {
 
+			logger.info('parsing completed', {name: name});
 			parser.close();
+			res.writeHead(200, { 'Content-Type': 'application/json' });
 			res.write(JSON.stringify(parser.getResult()));
 			res.end();
 			fs.unlink(outFilename, afterTmpPdfDeleted);
