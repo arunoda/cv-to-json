@@ -1,5 +1,5 @@
 {
 	"port": 11111,
-	"tmp-folder": "/tmp",
-	"pdftotext": "./bin/osx/pdftotext"
+	"tmp-folder": "C:\\tmp",
+	"pdftotext": "bin\\win\\bin32\\pdftotext.exe"
 }
